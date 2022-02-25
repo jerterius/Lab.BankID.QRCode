@@ -1,0 +1,97 @@
+﻿<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"/>
+
+
+
+</script>
+
+
+
+
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model Byte[]
+@using (Html.BeginForm("SubmitQRData", "Home", FormMethod.Post))
+{
+
+
+    <form id="qrCodeInputForm">
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <label>qrStartToken</label>
+                </td>
+                <td>
+                    <input type="text" name="qrStartToken" />
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <label> qrStartSecret</label>
+                </td>
+                <td>
+                    <input type="text" name="qrStartSecret" />
+                </td>
+
+            </tr>
+                        <tr>
+                <td>
+                    <label>qrTime</label>
+                </td>
+                <td>
+<label id="minutes">00</label>:<label id="seconds">00</label>
+                </td>
+
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button id="btnSubmit">Submit</button>
+                </td>
+            </tr>
+            
+        </tbody>
+    </table>
+    </form>
+}
+@{
+    if (Model != null)
+    {
+        <h3>QR Code Successfully Generated</h3>
+        <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model))" />
+    }
+}
+
+
+<script>
+
+
+
+
+
+var minutesLabel = document.getElementById("minutes");
+var secondsLabel = document.getElementById("seconds");
+var totalSeconds = 0;
+
+
+function setTime() {
+  ++totalSeconds;
+  secondsLabel.innerHTML = pad(totalSeconds % 60);
+  minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+}
+
+function pad(val) {
+  var valString = val + "";
+  if (valString.length < 2) {
+    return "0" + valString;
+  } else {
+    return valString;
+  }
+}
+
+
+</script>
